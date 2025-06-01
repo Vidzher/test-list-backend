@@ -28,7 +28,8 @@ export class ItemsRepository {
   };
 
   static updateState(id: string): string | null {
-      const targetItem = ITEMS_STORAGE.find((item) => item.id === id);
+    // const targetItem = ITEMS_STORAGE.find((item) => item.id === id);
+    const targetItem = ITEMS_MAP.get(id);
 
       if (!targetItem) return null;
 
