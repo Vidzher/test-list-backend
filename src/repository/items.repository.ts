@@ -5,11 +5,7 @@ let ITEMS_STORAGE: IItem[] = Array.from({length: 1_000_000}, (_, i): IItem => ({
   id: (i + 1).toString(),
   name: `Элемент ${i + 1}`,
   isChecked: false,
-  order: i + 1
 }));
-
-const ITEMS_MAP = new Map<string, IItem>();
-ITEMS_STORAGE.forEach((item) => ITEMS_MAP.set(item.id, item));
 
 export class ItemsRepository {
   static getAll(page: number = 1, limit: number = 20): IItemResponse {
@@ -28,9 +24,7 @@ export class ItemsRepository {
   };
 
   static updateState(id: string): string | null {
-    // const targetItem = ITEMS_STORAGE.find((item) => item.id === id);
-    const targetItem = ITEMS_MAP.get(id);
-
+    const targetItem = ITEMS_STORAGE.find((item) => item.id === id);
       if (!targetItem) return null;
 
       targetItem.isChecked = !targetItem.isChecked;
@@ -40,7 +34,6 @@ export class ItemsRepository {
 
   static updateOrder(updatedItems: IItem[]): IItem[] {
     ITEMS_STORAGE = [...updatedItems, ...ITEMS_STORAGE.slice(updatedItems.length)];
-    updatedItems.forEach(item => ITEMS_MAP.set(item.id, {...item}));
 
     return ITEMS_STORAGE;
   }
